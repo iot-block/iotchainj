@@ -33,7 +33,7 @@ public class ContractApiTest extends IoTChainTest {
         callTx.setValue(BigInteger.ZERO);
         String payload = Encoder.encodeFunction(
                 "balanceOf",
-                Arrays.asList(new Address("f6df328deb0df489caad847df5761a6f7e3a082c")),
+                Arrays.asList(new Address("0xf6df328deb0df489caad847df5761a6f7e3a082c")),
                 Collections.emptyList()
         );
         callTx.setData(payload);
