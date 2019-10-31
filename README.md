@@ -1,10 +1,10 @@
 # iotchainj
 iotchain sdk for java
 
-###Getting started
+### Getting started
 Add the relevant dependency to your project:
 
-###Maven
+### Maven
 ```
 <dependency>
   <groupId>io.iotchain</groupId>
@@ -13,12 +13,12 @@ Add the relevant dependency to your project:
 </dependency>
 ```
 
-###Gradle
+### Gradle
 ```
 compile 'io.iotchain:iotchainj:1.0.0'
 ```
 
-###Usage
+### Usage
 
 Firstly, setup IoTChain instance. 
 ```java
