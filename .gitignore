@@ -1,0 +1,19 @@
+.DS_Store
+
+# IDE specific
+.worksheet
+*.sc
+*.iml
+.idea
+.ensime
+.ensime_cache
+.bloop
+.vscode
+project/.bloop
+.metals
+
+.gradle
+build
+gradle
+out
+
