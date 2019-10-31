@@ -1,3 +1,1 @@
-rootProject.name = 'core'
-include 'sdk'
-
+rootProject.name = 'iotchainj'

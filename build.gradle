@@ -3,7 +3,7 @@ plugins {
 }
 apply plugin: 'java'
 
-group 'iotchain.core'
+group 'io.iotchain'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
