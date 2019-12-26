@@ -27,23 +27,8 @@ public class ContractApiTest extends IoTChainTest {
 
     @Test
     public void testQueryItc() throws IOException {
-        CallTx callTx = new CallTx();
-        callTx.setTo(ITC_CONTRACT_ADDRESS);
-        callTx.setGasPrice(BigInteger.ZERO);
-        callTx.setValue(BigInteger.ZERO);
-        String payload = Encoder.encodeFunction(
-                "balanceOf",
-                Arrays.asList(new Address("0xf6df328deb0df489caad847df5761a6f7e3a082c")),
-                Collections.emptyList()
-        );
-        callTx.setData(payload);
-        String resp = ioTChain.contractApi.call(callTx);
-
-        List<TypeReference<?>> types = Arrays.asList(new TypeReference<Uint256>() {});
-        List<Type> datas = Decoder.decodeFunctionReturn(resp, types);
-        Uint256 balance = (Uint256) datas.get(0);
-        System.out.println(balance.getValue());
-        assertTrue(datas.size()==1);
-        assertTrue(balance.getValue().compareTo(BigInteger.ZERO)>0);
+        BigInteger balance = ioTChain.contractApi.queryItcBalance(ITC_CONTRACT_ADDRESS, "itcf6df328deb0df489caad847df5761a6f7e3a082c");
+        System.out.println(balance);
+        assertTrue(balance.compareTo(BigInteger.ZERO)>0);
     }
 }

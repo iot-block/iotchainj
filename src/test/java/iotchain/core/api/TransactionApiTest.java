@@ -57,33 +57,36 @@ public class TransactionApiTest extends IoTChainTest {
 
         SignedTransaction stx = Signer.signTx(tx, PRIVATE_KEY, CHAIN_ID);
         System.out.println(JSON.toJSONString(stx, true));
-        String hash = ioTChain.transactionApi.sendTx(stx);
+
+        String hash = ioTChain.transactionApi.sendItg(new TransactionRequest(
+                CHAIN_ID,
+                tx.getNonce(),
+                PRIVATE_KEY,
+                "itc"+tx.getReceivingAddress(),
+                tx.getValue(),
+                tx.getGasPrice(),
+                tx.getGasLimit()), false);
         System.out.println(hash);
         assertThat(Numeric.prependHexPrefix(hash), is(stx.hash()));
     }
 
     @Test
     public void testSendItc() throws IOException {
+        BigInteger amount = new BigInteger("80000000000000000000");
+        String receiver = "itcf6df328deb0df489caad847df5761a6f7e3a082c";
+
         Account account = ioTChain.accountApi.getAccount(ADDRESS);
         BigInteger gasPrice = ioTChain.contractApi.getGasPrice();
-        String payload = Encoder.encodeFunction(
-                "transfer",
-                Arrays.asList(new Address("f6df328deb0df489caad847df5761a6f7e3a082c"), new Uint256(new BigInteger("80000000000000000000"))),
-                Collections.emptyList()
-        );
 
-        RawTransaction tx = new RawTransaction(
+        String hash = ioTChain.transactionApi.sendItc(new ItcTransactionRequest(
+                CHAIN_ID,
                 account.getNonce(),
+                PRIVATE_KEY,
+                receiver,
+                amount,
                 gasPrice,
                 BigInteger.valueOf(1500000),
-                ITC_CONTRACT_ADDRESS,
-                BigInteger.valueOf(0),
-                payload
-        );
-
-        SignedTransaction stx = Signer.signTx(tx, PRIVATE_KEY, CHAIN_ID);
-        System.out.println(JSON.toJSONString(stx, true));
-        String hash = ioTChain.transactionApi.sendTx(stx);
+                ITC_CONTRACT_ADDRESS), false);
         System.out.println(hash);
     }
 

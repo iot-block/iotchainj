@@ -12,10 +12,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
-    compile group: 'org.web3j', name: 'abi', version: '4.5.5'
-    compile group: 'org.web3j', name: 'rlp', version: '4.5.5'
-    compile group: 'org.web3j', name: 'crypto', version: '4.5.5'
-    compile group: 'org.web3j', name: 'utils', version: '4.5.5'
+    compile group: 'org.web3j', name: 'core', version: '4.5.5'
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.9.0'
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.62'
 }
@@ -51,7 +48,7 @@ publishing {
             customizePom(pom)
             groupId 'io.iotchain'
             artifactId 'iotchainj'
-            version '1.0.0'
+            version '1.1.0'
 
             from components.java
 

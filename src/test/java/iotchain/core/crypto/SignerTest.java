@@ -5,6 +5,7 @@ import iotchain.core.IoTChainTest;
 import iotchain.core.model.RawTransaction;
 import iotchain.core.model.SignedTransaction;
 import org.junit.Test;
+import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 
@@ -51,4 +52,20 @@ public class SignerTest extends IoTChainTest {
         assertThat(address, is(ADDRESS));
     }
 
+    @Test
+    public void testByteToSign(){
+        RawTransaction tx = new RawTransaction(
+                BigInteger.valueOf(0),
+                BigInteger.valueOf(1000000000000L),
+                BigInteger.valueOf(150000),
+                "0x2ca70e7d0c396c36e8b9d206d988607a013483cf",
+                BigInteger.valueOf(0),
+                "0xa9059cbb000000000000000000000000dc1e56d308fadcfda34219920e70bb2be41699df0000000000000000000000000000000000000000000000000de0b6b3a7640000"
+        );
+
+        SignedTransaction stx = Signer.signTx(tx, PRIVATE_KEY, 10L);
+        System.out.println(stx.getV().toString());
+        System.out.println(stx.getR().toString());
+        System.out.println(stx.getS().toString());
+    }
 }

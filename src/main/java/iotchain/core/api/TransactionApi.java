@@ -1,13 +1,18 @@
 package iotchain.core.api;
 
-import com.alibaba.fastjson.JSON;
-import iotchain.core.model.Receipt;
-import iotchain.core.model.SignedTransaction;
+import iotchain.core.codec.Encoder;
+import iotchain.core.crypto.Signer;
+import iotchain.core.model.*;
+import iotchain.core.util.Util;
+import iotchain.core.util.Validator;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.generated.Uint256;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TransactionApi extends Api{
     private static String PATH = "transaction";
@@ -57,5 +62,44 @@ public class TransactionApi extends Api{
         map.put("stx", transaction);
 
         return call(PATH+"/sendTx", map, String.class);
+    }
+
+    public String sendItg(TransactionRequest tx, boolean compatible) throws IOException {
+        if (!Validator.isValidAddress(tx.getReceiver(),compatible)){
+            throw new IllegalArgumentException("receiver address invalid");
+        }
+        RawTransaction rawTx = new RawTransaction(
+                tx.getNonce(),
+                tx.getGasPrice(),
+                tx.getGasLimit(),
+                Util.extractAddress(tx.getReceiver()),
+                tx.getValue(),
+                ""
+        );
+
+        SignedTransaction stx = Signer.signTx(rawTx, tx.getPrivateKey(), tx.getChainId());
+        return sendTx(stx);
+    }
+
+    public String sendItc(ItcTransactionRequest tx, boolean compatible) throws IOException {
+        if (!Validator.isValidAddress(tx.getReceiver(),compatible)){
+            throw new IllegalArgumentException("receiver address invalid");
+        }
+        String payload = Encoder.encodeFunction(
+                "transfer",
+                Arrays.asList(new Address(Util.extractAddress(tx.getReceiver())), new Uint256(tx.getValue())),
+                Collections.emptyList()
+        );
+        RawTransaction rawTx = new RawTransaction(
+                tx.getNonce(),
+                tx.getGasPrice(),
+                tx.getGasLimit(),
+                tx.getContractAddress(),
+                BigInteger.valueOf(0),
+                payload
+        );
+
+        SignedTransaction stx = Signer.signTx(rawTx, tx.getPrivateKey(), tx.getChainId());
+        return sendTx(stx);
     }
 }

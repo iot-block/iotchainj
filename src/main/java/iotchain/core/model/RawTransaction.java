@@ -111,7 +111,6 @@ public class RawTransaction {
 
         RlpList rlpList = new RlpList(result);
         byte[] encode = RlpEncoder.encode(rlpList);
-
         return Hash.sha3(encode);
     }
 }

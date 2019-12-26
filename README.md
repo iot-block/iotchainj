@@ -9,13 +9,13 @@ Add the relevant dependency to your project:
 <dependency>
   <groupId>io.iotchain</groupId>
   <artifactId>iotchainj</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'io.iotchain:iotchainj:1.0.0'
+compile 'io.iotchain:iotchainj:1.1.0'
 ```
 
 ### Usage
@@ -45,17 +45,14 @@ Long chainId = 100L;
 
 Account account = ioTChain.accountApi.getAccount(address);
 BigInteger gasPrice = ioTChain.contractApi.getGasPrice();
-RawTransaction tx = new RawTransaction(
-        account.getNonce(),
-        gasPrice,
-        BigInteger.valueOf(22000),
-        "f6df328deb0df489caad847df5761a6f7e3a082c",
-        new BigInteger("12330000000000"),
-        ""
-);
-
-SignedTransaction stx = Signer.signTx(tx, privateKey, chainId);
-String hash = ioTChain.transactionApi.sendTx(stx);
+String hash = ioTChain.transactionApi.sendItg(new TransactionRequest(
+                chainId,
+                account.getNonce(),
+                privateKey,
+                "itcf6df328deb0df489caad847df5761a6f7e3a082c",
+                new BigInteger("12330000000000"),
+                gasPrice,
+                BigInteger.valueOf(22000)), false);
 ```
 
 Send ITC:
@@ -67,44 +64,23 @@ String itcContractAddress = "0x866f68430344fb1a0b0271c588abae123a8c31dd";
 
 Account account = ioTChain.accountApi.getAccount(address);
 BigInteger gasPrice = ioTChain.contractApi.getGasPrice();
-String payload = Encoder.encodeFunction(
-        "transfer",
-        Arrays.asList(new Address("f6df328deb0df489caad847df5761a6f7e3a082c"), new Uint256(new BigInteger("80000000000000000000"))),
-        Collections.emptyList()
-);
 
-RawTransaction tx = new RawTransaction(
-        account.getNonce(),
-        gasPrice,
-        BigInteger.valueOf(1500000),
-        itcContractAddress,
-        BigInteger.valueOf(0),
-        payload
-);
-
-SignedTransaction stx = Signer.signTx(tx, privateKey, chainId);
-String hash = ioTChain.transactionApi.sendTx(stx);
+String hash = ioTChain.transactionApi.sendItc(new ItcTransactionRequest(
+                chainId,
+                account.getNonce(),
+                privateKey,
+                "itcf6df328deb0df489caad847df5761a6f7e3a082c",
+                new BigInteger("80000000000000000000"),
+                gasPrice,
+                BigInteger.valueOf(1500000),
+                itcContractAddress), false);
 ```
 
 Get ITC balance:
 ```java
 String itcContractAddress = "0x866f68430344fb1a0b0271c588abae123a8c31dd";
-String account = "0xf6df328deb0df489caad847df5761a6f7e3a082c";
-CallTx callTx = new CallTx();
-callTx.setTo(itcContractAddress);
-callTx.setGasPrice(BigInteger.ZERO);
-callTx.setValue(BigInteger.ZERO);
-String payload = Encoder.encodeFunction(
-        "balanceOf",
-        Arrays.asList(new Address(account)),
-        Collections.emptyList()
-);
-callTx.setData(payload);
-String resp = ioTChain.contractApi.call(callTx);
-
-List<TypeReference<?>> types = Arrays.asList(new TypeReference<Uint256>() {});
-List<Type> datas = Decoder.decodeFunctionReturn(resp, types);
-Uint256 balance = (Uint256) datas.get(0);
+String account = "itcf6df328deb0df489caad847df5761a6f7e3a082c";
+BigInteger balance = ioTChain.contractApi.queryItcBalance(itcContractAddress, account);
 ```
 
 For more information refer to [`TestCase`](https://github.com/iot-block/iotchainj/tree/master/src/test/java/iotchain/core) in project.
