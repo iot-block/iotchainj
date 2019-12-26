@@ -83,4 +83,10 @@ String account = "itcf6df328deb0df489caad847df5761a6f7e3a082c";
 BigInteger balance = ioTChain.contractApi.queryItcBalance(itcContractAddress, account);
 ```
 
+Create new wallet:
+```java
+WalletFile wallet = Util.createNewWallet("1");
+System.out.println(JSON.toJSONString(wallet));
+```
+
 For more information refer to [`TestCase`](https://github.com/iot-block/iotchainj/tree/master/src/test/java/iotchain/core) in project.
