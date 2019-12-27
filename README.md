@@ -89,4 +89,26 @@ WalletFile wallet = Util.createNewWallet("password");
 System.out.println(JSON.toJSONString(wallet));
 ```
 
+Extract address:
+```java
+String address1 = Util.extractAddress("itcf6df328deb0df489caad847df5761a6f7e3a082c");
+// address1: "f6df328deb0df489caad847df5761a6f7e3a082c"
+
+String address2 = Util.extractAddress("0xitcf6df328deb0df489caad847df5761a6f7e3a082c");
+// address2: "f6df328deb0df489caad847df5761a6f7e3a082c"
+
+String address3 = Util.extractAddress("0xf6df328deb0df489caad847df5761a6f7e3a082c");
+// address3: "f6df328deb0df489caad847df5761a6f7e3a082c"
+```
+
+Prepend symbol prefix:
+```java
+// right, address1 will be "itcf6df328deb0df489caad847df5761a6f7e3a082c"
+String address1 = Util.prependSymbolPrefix("f6df328deb0df489caad847df5761a6f7e3a082c");
+
+// wrong, address2 will be "itc0xf6df328deb0df489caad847df5761a6f7e3a082c"
+String address2 = Util.prependSymbolPrefix("0xf6df328deb0df489caad847df5761a6f7e3a082c");
+```
+
+
 For more information refer to [`TestCase`](https://github.com/iot-block/iotchainj/tree/master/src/test/java/iotchain/core) in project.
