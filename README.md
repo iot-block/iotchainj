@@ -87,6 +87,28 @@ Create new wallet:
 ```java
 WalletFile wallet = Util.createNewWallet("password");
 System.out.println(JSON.toJSONString(wallet));
+// output:
+{
+  "address": "f5e998ae319bda42029b19d0cfa10110fca6cfdb",
+  "crypto": {
+    "cipher": "aes-128-ctr",
+    "cipherparams": {
+      "iv": "28b7cfc31f44e0de0618ad895864988d"
+    },
+    "ciphertext": "e0af833de55eb0e404c7fc738fb40a62507787d149a35eea7aaa6ec38774a0d6",
+    "kdf": "scrypt",
+    "kdfparams": {
+      "dklen": 32,
+      "n": 262144,
+      "p": 1,
+      "r": 8,
+      "salt": "dd925445717e8913756cee549d95b35c048de59f3be1caf621d85a8795cc3bac"
+    },
+    "mac": "aafa21a16afee7dfed0268f285cdc3a42924b6d139f76278d75772be49f04d0b"
+  },
+  "id": "50a940d1-ab9e-4fca-a326-4e5717e0c461",
+  "version": 3
+}
 ```
 
 Extract address:
