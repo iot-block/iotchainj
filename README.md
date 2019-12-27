@@ -132,5 +132,18 @@ String address1 = Util.prependSymbolPrefix("f6df328deb0df489caad847df5761a6f7e3a
 String address2 = Util.prependSymbolPrefix("0xf6df328deb0df489caad847df5761a6f7e3a082c");
 ```
 
+Validate an address is valid or not, param `compatible` is true means compatible with ethereum address, false means only accept address starts with `itc`
+```java
+//true
+boolean isValid1 = Validator.isValidAddress("itcf6df328deb0df489caad847df5761a6f7e3a082c", true)
+//true
+boolean isValid2 = Validator.isValidAddress("itcf6df328deb0df489caad847df5761a6f7e3a082c", false)
+
+//true
+boolean isValid3 = Validator.isValidAddress("0xf6df328deb0df489caad847df5761a6f7e3a082c", true)
+//false
+boolean isValid4 = Validator.isValidAddress("0xf6df328deb0df489caad847df5761a6f7e3a082c", false)
+
+```
 
 For more information refer to [`TestCase`](https://github.com/iot-block/iotchainj/tree/master/src/test/java/iotchain/core) in project.
