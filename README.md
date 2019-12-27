@@ -85,7 +85,7 @@ BigInteger balance = ioTChain.contractApi.queryItcBalance(itcContractAddress, ac
 
 Create new wallet:
 ```java
-WalletFile wallet = Util.createNewWallet("1");
+WalletFile wallet = Util.createNewWallet("password");
 System.out.println(JSON.toJSONString(wallet));
 ```
 
